@@ -31,7 +31,8 @@ steps:
   displayName: 'Package the project'
   inputs:
     command: 'pack'
-    versioningScheme: byPrereleaseNumber
+    packagesToPack: '**/*.csproj'
+    versioningScheme: 'byPrereleaseNumber'
     majorVersion: '$(major)'
     minorVersion: '$(minor)'
     patchVersion: '$(patch)'
@@ -40,7 +41,8 @@ steps:
   displayName: 'Publish NuGet package'
   inputs:
     command: 'push'
-    feedsToUse: 'select'
-    publishVstsFeed: 'Joebzz.SpaceGame.Web.Models'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: '841f4638-030b-477c-8fa4-a155a396701f/507fd7a5-d939-4719-8acd-1fb88a1904da'
     allowPackageConflicts: true
   condition: succeeded()
