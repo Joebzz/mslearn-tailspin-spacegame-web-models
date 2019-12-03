@@ -2,9 +2,6 @@ pool:
   vmImage: 'Ubuntu-16.04'
 
 variables:
-  major: '1'
-  minor: '0'
-  patch: '0'
   buildConfiguration: 'Release'
   dotnetSdkVersion: '2.1.505'
 
@@ -27,16 +24,16 @@ steps:
     arguments: '--no-restore --configuration $(buildConfiguration)'
     projects: '**/*.csproj'
 
-- task: NuGetCommand@2
-  displayName: 'Package the project'
+- task: DotNetCoreCLI@2
+  displayName: 'Pack the project - $(buildConfiguration)'
   inputs:
     command: 'pack'
-    packagesToPack: '**/*.csproj'
-    configuration: '$(buildConfiguration)'
-    versioningScheme: 'byPrereleaseNumber'
-    majorVersion: '$(major)'
-    minorVersion: '$(minor)'
-    patchVersion: '$(patch)'
+    projects: '**/*.csproj'
+    arguments: '--no-build --configuration $(buildConfiguration)'
+    versioningScheme: byPrereleaseNumber
+    majorVersion: '1'
+    minorVersion: '0'
+    patchVersion: '0'
 
 - task: NuGetCommand@2
   displayName: 'Publish NuGet package'
